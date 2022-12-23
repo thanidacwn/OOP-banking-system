@@ -60,8 +60,6 @@ class Bank(User):
                 print("Not enough money to transfer")
                 print("Now, Your balance is", self.balance, "฿")
             else:
-                amount.withdraw(amount)
-                self.deposit(amount)
                 reciever.deposit(amount)
                 self.balance = self.balance - self.amount
                 print(f"You have transferred",self.amount, "฿")
