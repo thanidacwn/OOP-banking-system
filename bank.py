@@ -19,6 +19,7 @@ class User():
             print("Invalid input")
             print("Please try again")
             return False
+        return True
 
 class Bank(User):
     def __init__(self, user):
@@ -26,20 +27,19 @@ class Bank(User):
         self.balance = 0
 
     def deposit(self, amount):
-        if User.getDetails(self) == True:
-            amount = int(input("How much do you want to deposit?: "))
-            self.amount = amount
-            self.balance = self.amount + self.balance
-            print(f"You have deposited",self.amount, "฿")
-            menu = input("What do you want to do next?(deposit, withdraw, transfer, Nothing): ")
-            if menu == "deposit":
-                self.deposit(amount)
-            if menu == "withdraw":
-                self.withdraw(amount)
-            if menu == "transfer":
-                self.transfer(reciever=self.reciever_firstname, amount=0)
-            else:
-                print("Thank you for using our bank")
+        amount = int(input("How much do you want to deposit?: "))
+        self.amount = amount
+        self.balance = self.amount + self.balance
+        print(f"You have deposited",self.amount, "฿")
+        menu = input("What do you want to do next?(deposit, withdraw, transfer, Nothing): ")
+        if menu == "deposit":
+            self.deposit(amount)
+        if menu == "withdraw":
+            self.withdraw(amount)
+        if menu == "transfer":
+            self.transfer(reciever=Bank, amount=0)
+        else:
+            print("Thank you for using our bank")
 
 
     def withdraw(self, amount):
