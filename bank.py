@@ -8,18 +8,15 @@ class User():
     def getDetails(self):
         self.age = int(input("Age: "))
         if self.age < int(15):
-            print("Sorry! You are not old enough to use this bank")
-            return False
+            raise ValueError("You are too young to use our bank")
         self.gender = input("Gender(Male or Female):")
         if self.gender == "Male":
             print(f"Welcome Mr.{self.firstname} {self.surname} :)")
         elif self.gender == "Female":
             print(f"Welcome Mrs.{self.firstname} {self.surname} :)")
         else:
-            print("Invalid input")
-            print("Please try again")
-            return False
-        return True
+            raise ValueError("Invalid input")
+
 
 class Bank(User):
     def __init__(self, user):
@@ -53,7 +50,8 @@ class Bank(User):
             print("Now, Your balance is", self.balance, "฿")
 
     def transfer(self, reciever, amount):
-        reciever = pd.read_csv("account.csv")
+        reciever = "Bhayu"
+        print(reciever)
         self.reciever_firstname = input("Who do you want to transfer to?(reciever-firstname): ")
         if reciever == self.reciever_firstname:
             amount = int(input("How much do you want to transfer?: "))
