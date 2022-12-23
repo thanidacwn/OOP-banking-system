@@ -1,12 +1,24 @@
+import pandas as pd
+
 class User():
     def __init__(self):
         self.firstname = input("Firstname: ")
         self.surname = input("Surname: ")
-        self.age = int(input("Age: "))
 
     def getDetails(self):
-        print(f"{self.firstname} {self.surname} is {self.age} years old")
-
+        self.age = int(input("Age: "))
+        if self.age < int(15):
+            print("Sorry! You are not old enough to use this bank")
+            return False
+        self.gender = input("Gender(Male or Female):")
+        if self.gender == "Male":
+            print(f"Welcome Mr.{self.firstname} {self.surname} :)")
+        elif self.gender == "Female":
+            print(f"Welcome Mrs.{self.firstname} {self.surname} :)")
+        else:
+            print("Invalid input")
+            print("Please try again")
+            return False
 
 class Bank(User):
     def __init__(self, user):
@@ -14,22 +26,51 @@ class Bank(User):
         self.balance = 0
 
     def deposit(self, amount):
-        amount = int(input("How much do you want to deposit?: "))
-        self.amount = amount
-        self.balance = self.amount + self.balance
-        print(f"You have deposited",self.amount, "฿")
+        if User.getDetails(self) == True:
+            amount = int(input("How much do you want to deposit?: "))
+            self.amount = amount
+            self.balance = self.amount + self.balance
+            print(f"You have deposited",self.amount, "฿")
+            menu = input("What do you want to do next?(deposit, withdraw, transfer, Nothing): ")
+            if menu == "deposit":
+                self.deposit(amount)
+            if menu == "withdraw":
+                self.withdraw(amount)
+            if menu == "transfer":
+                self.transfer(reciever=self.reciever_firstname, amount=0)
+            else:
+                print("Thank you for using our bank")
 
 
     def withdraw(self, amount):
         amount = int(input("How much do you want to withdraw?: "))
         self.amount = amount
         if self.amount > self.balance:
-            print("Not enough money")
+            print("Not enough money to withdraw")
         else:
             self.balance = self.balance - self.amount
             print(f"You have withdrawn",self.amount, "฿")
-            print("Your balance is", self.balance, "฿")
+            print("Now, Your balance is", self.balance, "฿")
 
+    def transfer(self, reciever, amount):
+        reciever = pd.read_csv("account.csv")
+        self.reciever_firstname = input("Who do you want to transfer to?(reciever-firstname): ")
+        if reciever == self.reciever_firstname:
+            amount = int(input("How much do you want to transfer?: "))
+            self.amount = amount
+            if self.amount > self.balance:
+                print("Not enough money to transfer")
+                print("Now, Your balance is", self.balance, "฿")
+            else:
+                amount.withdraw(amount)
+                self.deposit(amount)
+                reciever.deposit(amount)
+                self.balance = self.balance - self.amount
+                print(f"You have transferred",self.amount, "฿")
+                print("Now, Your balance is", self.balance, "฿")
+        else:
+            print("No such user, You can not transfer money to this user")
+    
     # def getBalance(self):
     #     self.getDetails()
     #     print("Your balance is " + self.balance + " ฿")
